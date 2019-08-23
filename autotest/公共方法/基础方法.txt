@@ -7,12 +7,13 @@ Library               RedisLibrary
 Library               MongoDBLibrary
 Library               Collections
 Library               OperatingSystem
+Resource              ../公共变量/环境变量SIT.txt
 
 *** Keywords ***
 POST请求-WWW
         [Arguments]        ${url}        ${data}
         [Timeout]
-        Create Session        api        http://api-lmf.sit.wnqb8.com
+        Create Session        api        ${E-HOST-LMF}
         ${headers}        Header管理
         Set To Dictionary        ${headers}        Content-Type=application/x-www-form-urlencoded
         ${response}        Post Request        api        ${url}        ${data}        headers=${headers}
@@ -22,7 +23,7 @@ POST请求-WWW
 POST请求-Json
         [Arguments]        ${url}        ${data}
         ${proxies}        Create Dictionary        http        127.0.0.1:8888
-        Create Session        api        http://api-lmf.sit.wnqb8.com        proxies=${proxies}
+        Create Session        api        ${E-HOST-LMF}        proxies=${proxies}
         ${headers}        Header管理
         Set To Dictionary        ${headers}        Content-Type=application/json;charset=UTF-8
         ${response}        Post Request        api        ${url}        json=${data}        headers=${headers}
@@ -32,7 +33,7 @@ POST请求-Json
 POST请求-form
         [Arguments]        ${url}        ${data}
         [Timeout]
-        Create Session        api        http://api-lmf.sit.wnqb8.com
+        Create Session        api        ${E-HOST-LMF}
         ${headers}        Header管理
         Set To Dictionary        ${headers}        Content-Type=application/x-www-form-urlencoded
         ${response}        Post Request        api        ${url}        ${data}        headers=${headers}
@@ -42,7 +43,7 @@ POST请求-form
 POST请求-files
         [Arguments]        ${url}        ${data}        ${files}
         [Timeout]
-        Create Session        api        http://api-lmf.sit.wnqb8.com
+        Create Session        api        ${E-HOST-LMF}
         ${headers}        Header管理
         Comment        Set To Dictionary        ${headers}        Content-Type=multipart/form-data
         ${response}        Post Request        api        ${url}        data=${data}        files=${files}        headers=${headers}
