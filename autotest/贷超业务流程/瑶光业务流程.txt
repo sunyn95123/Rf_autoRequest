@@ -1,0 +1,75 @@
+*** Settings ***
+Resource              ../公共方法/接口方法.txt
+Resource              ../公共方法/验证方法.txt
+
+*** Test Cases ***
+初始化数据
+        ${account_info}        Create Account Info        中国工商银行
+        Set Suite Variable        ${phone}        ${account_info['phone']}
+        Set Suite Variable        ${idcard}        ${account_info['ssn']}
+        Set Suite Variable        ${card_name}        ${account_info['name']}
+        ${x-forwarded-for}        生成随机IP
+        Set Global Variable        ${x-forwarded-for}
+
+获取验证码
+        获取验证码-/send-msg
+        判断success
+
+验证码登录
+        验证码登录-/identifyCode
+        判断errorCode=200
+
+设置密码
+        设置密码-/set/password
+        判断errorCode=200
+
+推送push
+        推送-/pre-bump/push
+        判断errorCode=200
+
+获取page-url
+        获取page-/get-start-page-url
+        判断errorCode=200
+        判断data不为空
+
+万能钱包防审核
+        万能钱包放审核-/get-wjf-switch
+        判断errorCode=200
+        判断data不为空
+
+获取首页认证项
+        获取首页认证项-/v1/index
+        判断errorCode=200
+        判断data不为空
+
+基本信息
+        获取基本信息-/get-base-info
+        贷款通知书-/get-contract-info
+        判断errorCode=200
+
+提交基本信息
+        提交基本信息-/save-base-info
+        判断errorCode=200
+
+启动有盾
+        启动有盾-/get-cert-only-said
+        判断errorCode=200
+        判断data不为空
+
+获取补充联系人
+        获取补充联系人-/get-user-relationship-info
+        判断errorCode=200
+        判断data不为空
+
+保存补充联系人
+        保存补充联系人-/save-device-info
+        判断errorCode=200
+
+校验补充联系人
+        校验补充联系人-/save-user-relationship-info
+        判断errorCode=200
+
+获取认证项跳转地址(运营商)
+        获取认证项跳转地址(运营商)-/get-cert-destination
+        判断errorCode=200
+        判断data不为空

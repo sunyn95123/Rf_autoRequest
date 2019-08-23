@@ -1,0 +1,4 @@
+*** Variables ***
+${Connection}         Keep-Alive
+${User-Agent}         okhttp/3.9.1
+${Accept-Encoding}        gzip

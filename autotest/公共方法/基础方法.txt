@@ -1,0 +1,133 @@
+*** Settings ***
+Library               RequestsLibrary
+Library               String
+Library               DatabaseLibrary
+Resource              ../公共变量/公共变量.txt
+Library               RedisLibrary
+Library               MongoDBLibrary
+Library               Collections
+Library               OperatingSystem
+
+*** Keywords ***
+POST请求-WWW
+        [Arguments]        ${url}        ${data}
+        [Timeout]
+        Create Session        api        http://api-lmf.sit.wnqb8.com
+        ${headers}        Header管理
+        Set To Dictionary        ${headers}        Content-Type=application/x-www-form-urlencoded
+        ${response}        Post Request        api        ${url}        ${data}        headers=${headers}
+        ${response_base64}        base_64_json_decrypt        ${response.text}
+        [Return]        ${response_json}
+
+POST请求-Json
+        [Arguments]        ${url}        ${data}
+        ${proxies}        Create Dictionary        http        127.0.0.1:8888
+        Create Session        api        http://api-lmf.sit.wnqb8.com        proxies=${proxies}
+        ${headers}        Header管理
+        Set To Dictionary        ${headers}        Content-Type=application/json;charset=UTF-8
+        ${response}        Post Request        api        ${url}        json=${data}        headers=${headers}
+        ${response_base64}        base_64_json_decrypt        ${response.text}
+        [Return]        ${response_base64}
+
+POST请求-form
+        [Arguments]        ${url}        ${data}
+        [Timeout]
+        Create Session        api        http://api-lmf.sit.wnqb8.com
+        ${headers}        Header管理
+        Set To Dictionary        ${headers}        Content-Type=application/x-www-form-urlencoded
+        ${response}        Post Request        api        ${url}        ${data}        headers=${headers}
+        ${response_base64}        base_64_json_decrypt        ${response.text}
+        [Return]        ${response_json}
+
+POST请求-files
+        [Arguments]        ${url}        ${data}        ${files}
+        [Timeout]
+        Create Session        api        http://api-lmf.sit.wnqb8.com
+        ${headers}        Header管理
+        Comment        Set To Dictionary        ${headers}        Content-Type=multipart/form-data
+        ${response}        Post Request        api        ${url}        data=${data}        files=${files}        headers=${headers}
+        ${response_base64}        base_64_json_decrypt        ${response.text}
+        [Return]        ${response_json}
+
+MYSQL打开连接
+        Connect To Database Using Custom Params        pymysql        ${E-MYSQL-CONNECT-MEMBER}
+        Connect To Database Using Custom Params        pymysql        ${E-MYSQL-CONNECT-LOAN}
+
+MYSQL查询
+        [Arguments]        ${sql}
+        ${ret}        query        ${sql}
+        [Return]        ${ret}
+
+MYSQL关闭连接
+        Disconnect From Database
+
+REDIS打开连接
+        Connect To Redis        ${E-REDIS-CONNECT-HQWY}
+
+REDIS关闭连接
+        Disconnect From Redis
+
+REDIS查询
+        [Arguments]        ${key}
+        ${value}        get_from_redis_list        ${key}
+        [Return]        ${value}
+
+REDIS删除
+        [Arguments]        ${key}
+        ${value}        list_iter_del        ${key}
+        [Return]        ${value}
+
+MONGO打开连接
+        Connect To Mongodb        ${E-MONGO-CONNECT-STRING}
+
+MONGO查询
+        [Arguments]        ${collection}        ${filter}={}
+        sleep        0.5s
+        ${ret}        Retrieve Some Mongodb Records        mongo_hesuan        ${collection}        ${filter}        ${True}
+        [Return]        ${ret}
+
+MONGO查询proxy报文
+        [Arguments]        ${filter}={}
+        sleep        0.5s
+        ${year}        ${month}        Get Time        year,month
+        ${collection}        Set Variable        proxy_packet_message_record_${year}_${month}
+        ${ret}        Retrieve Some Mongodb Records        hexin_rebuild        ${collection}        ${filter}        ${True}
+        [Return]        ${ret}
+
+MONGO查询business报文
+        [Arguments]        ${filter}={}
+        sleep        1s
+        ${year}        ${month}        Get Time        year,month
+        ${collection}        Set Variable        business_packet_message_record_${year}_${month}
+        ${ret}        Retrieve Some Mongodb Records        hexin_rebuild        ${collection}        ${filter}        ${True}
+        [Return]        ${ret}
+
+MONGO关闭连接
+        Disconnect From Mongodb
+
+读取文件
+        [Arguments]        ${path}
+        ${file}        Get Binary File        ${path}
+        [Return]        ${file}
+
+生成随机IP
+        ${num1}        Evaluate        random.randint(128,191)        random
+        ${num2}        Evaluate        random.randint(1,255)        random
+        ${num3}        Evaluate        random.randint(0,255)        random
+        ${num4}        Evaluate        random.randint(1,254)        random
+        ${x-forwarded-for}        Catenate        SEPARATOR=.        ${num1}        ${num2}
+        ${x-forwarded-for}        Catenate        SEPARATOR=.        ${x-forwarded-for}        ${num3}
+        ${x-forwarded-for}        Catenate        SEPARATOR=.        ${x-forwarded-for}        ${num4}
+        [Return]        ${x-forwarded-for}
+
+MYSQL删除
+        [Arguments]        ${sql}
+        ${ret}        Execute Sql String        ${sql}
+        [Return]        ${ret}
+
+Header管理
+        ${headers}        Create Dictionary
+        Set To Dictionary        ${headers}        User-Agent        ${User-Agent}
+        Set To Dictionary        ${headers}        Connection        ${Connection}
+        Set To Dictionary        ${headers}        Accept-Encoding        ${Accept-Encoding}
+        [Return]        ${headers}

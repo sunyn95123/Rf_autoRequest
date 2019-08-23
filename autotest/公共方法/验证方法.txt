@@ -1,0 +1,13 @@
+*** Settings ***
+Resource              基础方法.txt
+
+*** Keywords ***
+判断errorCode=200
+        Should Be Equal        '${json['errorCode']}'        '200'
+        run keyword if        ${json['errorCode']}!='200'        log        msg = ${json['msg']}
+
+判断data不为空
+        should not be empty        '${json['data']}'
+
+判断success
+        Should Be Equal        '${json['success']}'        'True'

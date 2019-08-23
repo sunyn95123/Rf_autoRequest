@@ -1,0 +1,50 @@
+*** Settings ***
+Resource              ../公共方法/接口方法.txt
+Resource              ../公共方法/验证方法.txt
+
+*** Test Cases ***
+初始化数据
+        ${account_info}        Create Account Info        中国工商银行
+        Set Suite Variable        ${phone}        ${account_info['phone']}
+        Set Suite Variable        ${idcard}        ${account_info['ssn']}
+        Set Suite Variable        ${card_name}        ${account_info['name']}
+
+获取验证码
+        获取验证码-/send-msg
+        判断success
+
+验证码登录
+        验证码登录-/identifyCode
+        判断errorCode=200
+
+我的-tab
+        我的-tab-/get-order-list-status
+        判断errorCode=200
+
+账单列表
+        账单列表-/get-order-list
+        /product/recommend
+        判断errorCode=200
+
+还款历史
+        获取还款历史-/get-repay-history
+        判断errorCode=200
+
+设置登录密码
+        设置登录密码-/if/set/password
+        设置密码-/set/password
+        判断errorCode=200
+
+获取协议
+        获取协议-/secret-clause-url
+        判断data不为空
+
+检查更新
+        检查更新-/check/upgrade
+        判断errorCode=200
+        判断data不为空
+
+我的-mine
+        我的-/v1/mine
+        判断errorCode=200
+        判断data不为空

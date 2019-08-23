@@ -1,0 +1,5 @@
+diff a/公共方法/验证方法.txt b/公共方法/验证方法.txt	(rejected hunks)
+
+ 判断城市定位返回不为空
+     should not be empty    ${index_cities}
+     should not be empty    ${index_hotCtities}

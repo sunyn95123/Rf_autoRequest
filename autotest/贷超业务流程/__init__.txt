@@ -1,0 +1,8 @@
+*** Settings ***
+Suite Setup           环境准备
+Suite Teardown        环境清理
+Resource              ../公共方法/基础方法.txt
+Resource              ../公共方法/公共方法.txt
+Resource              ../公共方法/接口方法.txt
+Resource              ../公共方法/验证方法.txt
+Resource              ../公共变量/环境变量SIT.txt

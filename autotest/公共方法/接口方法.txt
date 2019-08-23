@@ -1,0 +1,127 @@
+*** Settings ***
+Resource              基础方法.txt
+Resource              ../公共变量/URL变量.txt
+Library               TestLibrary
+
+*** Keywords ***
+获取验证码-/send-msg
+        ${ajson}        Evaluate        {"baseParams":{"appVersion":"2.3.0","deviceModel":"PACM00","deviceType":"app","locateAddress":"上海市浦东新区邹平路800号靠近云顶广场A座","locateCity":"上海市","locateDistrict":"浦东新区","locationProvince":"上海市","majorAppVersion":"2.3.0","network":"WIFI","networkOperator":"unknown","pValue":"01131050230800060","platformId":"android","position":{"lat":"31.171983","lon":"121.51395"},"screenResolution":"1080,2280","tag":"default","termId":"ed143dd0da70efff","termModel":"root PACM00","termSysVersion":"8.1.0","wifiMac":"6c:8b:d3:3b:c2:4f","wifiSsid":"bf-corp"},"bizParams":{"phoneNumber":"${phone}"},"jwt":"eyJhbGciOiJIUzI1NiJ9.eyJqdGkiOiJqd3QiLCJpYXQiOjE1NjYwMjY4MTMsInN1YiI6IntcInBob25lTm9cIjpcIm90WnRTaVFTdnNGRTUzUmNOS2gwNUE9PVwifSIsImV4cCI6MTU2ODYxODgxM30.HxebtXflWbwT_YYXyWRzy4lm4G-2xj8JpHoStNfvQ54","lmToken":"aiO4KfOa1dtDvhbS6jk1CA/cqnKXj1uX3JcwoNdbUQCysSoYtXEEci/afTTFokps","phoneNumber":"${phone}","sign":"bfcc1d65839f71ee24df88ef94cc0269","source":7,"timestamp":"1566195127925","token":""}
+        ${json}        POST请求-Json        ${获取验证码-/send-msg}        ${ajson}
+        Set Suite Variable        ${json}
+
+验证码登录-/identifyCode
+        ${ajson}        Evaluate        {"baseParams":{"appVersion":"2.3.0","deviceModel":"PACM00","deviceType":"app","locateAddress":"上海市浦东新区邹平路800号靠近云顶广场A座","locateCity":"上海市","locateDistrict":"浦东新区","locationProvince":"上海市","majorAppVersion":"2.3.0","network":"WIFI","networkOperator":"unknown","pValue":"01131050230800060","platformId":"android","position":{"lat":"31.171991","lon":"121.513961"},"screenResolution":"1080,2280","tag":"default","termId":"ed143dd0da70efff","termModel":"root PACM00","termSysVersion":"8.1.0","wifiMac":"6c:8b:d3:4c:c4:af","wifiSsid":"bf-corp"},"bizParams":{"clientId":"d497328d5f5fcd88642d396fd71b2371","identifyCode":"5678","phoneNumber":"${phone}"},"jwt":"eyJhbGciOiJIUzI1NiJ9.eyJqdGkiOiJqd3QiLCJpYXQiOjE1NjY0NzU2ODcsInN1YiI6IntcInBob25lTm9cIjpcIlBFRnVVOUF0SDc5dFpxTkxpYVVyd0E9PVwifSIsImV4cCI6MTU2OTA2NzY4N30.ZAKtuNmXdcZRtGnLdkYkgd6s9_4PnP5YZW1szE5K-LM","lmToken":"SRjLotwgkMWiFamA7mk4hbyl4mJDi03ONtkr6L6xDRZ0+GzuLfrv7A/G+71dPwkN","phoneNumber":"${phone}","sign":"3566da5b1f07437e64514e23f3faeb96","source":7,"timestamp":"1566475785085","token":""}
+        ${json}        POST请求-Json        ${验证码登录-/identifyCode}        ${ajson}
+        Set Suite Variable        ${jwt}        ${json['jwt']}
+        Set Suite Variable        ${Im_token}        ${json['lmToken']}
+        Set Suite Variable        ${json}
+
+获取基本信息-/get-base-info
+        ${ajson}        Evaluate        {"baseParams":{"appVersion":"2.3.0","deviceModel":"PACM00","deviceType":"app","locateAddress":"上海市浦东新区邹平路800号靠近云顶广场A座","locateCity":"上海市","locateDistrict":"浦东新区","locationProvince":"上海市","majorAppVersion":"2.3.0","network":"WIFI","networkOperator":"unknown","pValue":"01131050230800060","platformId":"android","position":{"lat":"31.171985","lon":"121.513949"},"screenResolution":"1080,2280","tag":"default","termId":"ed143dd0da70efff","termModel":"root PACM00","termSysVersion":"8.1.0","wifiMac":"6c:8b:d3:3b:c2:4f","wifiSsid":"bf-corp"},"bizParams":{"ocrType":2},"jwt":"${jwt}","lmToken":"${Im_token}","phoneNumber":"${phone}","sign":"a46c7e2eb2f89441c7fea1dd4ff1ed4b","source":7,"timestamp":"1566268622981","token":""}
+        ${json}        POST请求-Json        ${获取基本信息-/get-base-info}        ${ajson}
+        Set Suite Variable        ${json}
+
+贷款通知书-/get-contract-info
+        ${ajson}        Evaluate        {"baseParams":{"appVersion":"2.3.0","deviceModel":"PACM00","deviceType":"app","locateAddress":"上海市浦东新区邹平路800号靠近云顶广场A座","locateCity":"上海市","locateDistrict":"浦东新区","locationProvince":"上海市","majorAppVersion":"2.3.0","network":"WIFI","networkOperator":"unknown","pValue":"01131050230800060","platformId":"android","position":{"lat":"31.171991","lon":"121.513961"},"screenResolution":"1080,2280","tag":"default","termId":"ed143dd0da70efff","termModel":"root PACM00","termSysVersion":"8.1.0","wifiMac":"6c:8b:d3:4c:c4:af","wifiSsid":"bf-corp"},"bizParams":{"pageCode":1,"productId":0,"returnUrl":"bj://hybrid/action/finish"},"jwt":"${jwt}","lmToken":"${Im_token}","phoneNumber":"${phone}","sign":"2215a68600b2b2f3942ca868197073a0","source":7,"timestamp":"1566478677448","token":""}
+        ${json}        POST请求-Json        ${贷款通知书-/get-contract-info}        ${ajson}
+        Set Suite Variable        ${json}
+
+提交基本信息-/save-base-info
+        ${ajson}        Evaluate        {"baseParams":{"appVersion":"2.3.0","deviceModel":"PACM00","deviceType":"app","locateAddress":"上海市浦东新区邹平路800号靠近云顶广场A座","locateCity":"上海市","locateDistrict":"浦东新区","locationProvince":"上海市","majorAppVersion":"2.3.0","network":"WIFI","networkOperator":"unknown","pValue":"01131050230800060","platformId":"android","position":{"lat":"31.171985","lon":"121.513949"},"screenResolution":"1080,2280","tag":"default","termId":"ed143dd0da70efff","termModel":"root PACM00","termSysVersion":"8.1.0","wifiMac":"6c:8b:d3:4c:c4:af","wifiSsid":"bf-corp"},"bizParams":{"educationLevel":2,"idCardNo":"23232619960310004X","monthlyIncome":"123456","operatingYears":0,"userName":"刘铭","workType":3,"workYears":1},"jwt":"${jwt}","lmToken":"${Im_token}","phoneNumber":"${phone}","sign":"f10bda53aaa884508c634898994c9105","source":7,"timestamp":"1566284681798","token":""}
+        ${json}        POST请求-Json        ${提交基本信息-/save-base-info}        ${ajson}
+        Set Suite Variable        ${json}
+
+设置密码-/set/password
+        ${ajson}        Evaluate        {"baseParams":{"appVersion":"2.3.0","deviceModel":"PACM00","deviceType":"app","locateAddress":"上海市浦东新区邹平路800号靠近云顶广场A座","locateCity":"上海市","locateDistrict":"浦东新区","locationProvince":"上海市","majorAppVersion":"2.3.0","network":"WIFI","networkOperator":"unknown","pValue":"01131050230800060","platformId":"android","position":{"lat":"31.171991","lon":"121.513961"},"screenResolution":"1080,2280","tag":"default","termId":"ed143dd0da70efff","termModel":"root PACM00","termSysVersion":"8.1.0","wifiMac":"6c:8b:d3:4c:c4:af","wifiSsid":"bf-corp"},"bizParams":{"password":"123456a","phoneNumber":"${phone}"},"jwt":"${jwt}","lmToken":"${Im_token}","phoneNumber":"${phone}","sign":"20b6afab9d792306ecd8ad7c88e95ad8","source":7,"timestamp":"1566477488204","token":""}
+        ${json}        POST请求-Json        ${设置密码-/set/password}        ${ajson}
+        Set Suite Variable        ${json}
+
+我的-tab-/get-order-list-status
+        ${ajson}        Evaluate        {"baseParams":{"appVersion":"2.3.0","deviceModel":"PACM00","deviceType":"app","locateAddress":"上海市浦东新区邹平路800号靠近云顶广场A座","locateCity":"上海市","locateDistrict":"浦东新区","locationProvince":"上海市","majorAppVersion":"2.3.0","network":"WIFI","networkOperator":"unknown","pValue":"01131050230800060","platformId":"android","position":{"lat":"31.171991","lon":"121.513961"},"screenResolution":"1080,2280","tag":"default","termId":"ed143dd0da70efff","termModel":"root PACM00","termSysVersion":"8.1.0","wifiMac":"6c:8b:d3:4c:c4:af","wifiSsid":"bf-corp"},"bizParams":{},"jwt":"${jwt}","lmToken":"${Im_token}","phoneNumber":"${phone}","sign":"580dd1ded803855965f060061795c49f","source":7,"timestamp":"1566528353652","token":""}
+        ${json}        POST请求-Json        ${我的-tab-/get-order-list-status}        ${ajson}
+        Set Suite Variable        ${json}
+
+账单列表-/get-order-list
+        ${ajson}        Evaluate        {"baseParams":{"appVersion":"2.3.0","deviceModel":"PACM00","deviceType":"app","locateAddress":"上海市浦东新区邹平路800号靠近云顶广场A座","locateCity":"上海市","locateDistrict":"浦东新区","locationProvince":"上海市","majorAppVersion":"2.3.0","network":"WIFI","networkOperator":"unknown","pValue":"01131050230800060","platformId":"android","position":{"lat":"31.171991","lon":"121.513961"},"screenResolution":"1080,2280","tag":"default","termId":"ed143dd0da70efff","termModel":"root PACM00","termSysVersion":"8.1.0","wifiMac":"6c:8b:d3:4c:c4:af","wifiSsid":"bf-corp"},"bizParams":{"type":4},"jwt":"${jwt}","lmToken":"${Im_token}","phoneNumber":"${phone}","sign":"386efc6525aa49287d88706fc726a927","source":7,"timestamp":"1566528816390","token":""}
+        ${json}        POST请求-Json        ${账单列表-/get-order-list}        ${ajson}
+        Set Suite Variable        ${json}
+
+/product/recommend
+        ${ajson}        Evaluate        {"baseParams":{"appVersion":"2.3.0","deviceModel":"PACM00","deviceType":"app","locateAddress":"上海市浦东新区邹平路800号靠近云顶广场A座","locateCity":"上海市","locateDistrict":"浦东新区","locationProvince":"上海市","majorAppVersion":"2.3.0","network":"WIFI","networkOperator":"unknown","pValue":"01131050230800060","platformId":"android","position":{"lat":"31.171991","lon":"121.513961"},"screenResolution":"1080,2280","tag":"default","termId":"ed143dd0da70efff","termModel":"root PACM00","termSysVersion":"8.1.0","wifiMac":"6c:8b:d3:4c:c4:af","wifiSsid":"bf-corp"},"bizParams":{"pageType":1,"productId":0},"jwt":"${jwt}","lmToken":"${Im_token}","phoneNumber":"${phone}","sign":"769c8d61a39a73977085013574e36d60","source":7,"timestamp":"1566529596842","token":""}
+        ${json}        POST请求-Json        ${/product/recommend}        ${ajson}
+        Set Suite Variable        ${json}
+
+获取还款历史-/get-repay-history
+        ${ajson}        Evaluate        {"baseParams":{"appVersion":"2.3.0","deviceModel":"PACM00","deviceType":"app","locateAddress":"上海市浦东新区邹平路800号靠近云顶广场A座","locateCity":"上海市","locateDistrict":"浦东新区","locationProvince":"上海市","majorAppVersion":"2.3.0","network":"WIFI","networkOperator":"unknown","pValue":"01131050230800060","platformId":"android","position":{"lat":"31.171991","lon":"121.513961"},"screenResolution":"1080,2280","tag":"default","termId":"ed143dd0da70efff","termModel":"root PACM00","termSysVersion":"8.1.0","wifiMac":"6c:8b:d3:4c:c4:af","wifiSsid":"bf-corp"},"bizParams":{},"jwt":"${jwt}","lmToken":"${Im_token}","phoneNumber":"${phone}","sign":"2acd57c3b04baf5379a7315dae251c69","source":7,"timestamp":"1566532044321","token":""}
+        ${json}        POST请求-Json        ${获取还款历史-/get-repay-history}        ${ajson}
+        Set Suite Variable        ${json}
+
+设置登录密码-/if/set/password
+        ${ajson}        Evaluate        {"baseParams":{"appVersion":"2.3.0","deviceModel":"PACM00","deviceType":"app","locateAddress":"上海市浦东新区邹平路800号靠近云顶广场A座","locateCity":"上海市","locateDistrict":"浦东新区","locationProvince":"上海市","majorAppVersion":"2.3.0","network":"WIFI","networkOperator":"unknown","pValue":"01131050230800060","platformId":"android","position":{"lat":"31.171991","lon":"121.513961"},"screenResolution":"1080,2280","tag":"default","termId":"ed143dd0da70efff","termModel":"root PACM00","termSysVersion":"8.1.0","wifiMac":"6c:8b:d3:4c:c4:af","wifiSsid":"bf-corp"},"bizParams":{"phoneNumber":"15765323185"},"jwt":"${jwt}","lmToken":"${Im_token}","phoneNumber":"${phone}","sign":"713e3aa2fb7e2c3527795751c0dea08d","source":7,"timestamp":"1566532501365","token":""}
+        ${json}        POST请求-Json        ${设置登录密码-/if/set/password}        ${ajson}
+        Set Suite Variable        ${json}
+
+获取协议-/secret-clause-url
+        ${ajson}        Evaluate        {"baseParams":{"appVersion":"2.3.0","deviceModel":"PACM00","deviceType":"app","locateAddress":"上海市浦东新区邹平路800号靠近云顶广场A座","locateCity":"上海市","locateDistrict":"浦东新区","locationProvince":"上海市","majorAppVersion":"2.3.0","network":"WIFI","networkOperator":"unknown","pValue":"01131050230800060","platformId":"android","position":{"lat":"31.171991","lon":"121.513961"},"screenResolution":"1080,2280","tag":"default","termId":"ed143dd0da70efff","termModel":"root PACM00","termSysVersion":"8.1.0","wifiMac":"6c:8b:d3:4c:c4:af","wifiSsid":"bf-corp"},"bizParams":{"phoneNumber":"${phone}"},"jwt":"${jwt}","lmToken":"${Im_token}","phoneNumber":"${phone}","sign":"5872f541ddc436f67da32164546b6c0a","source":7,"timestamp":"1566539625922","token":""}
+        ${json}        POST请求-Json        ${获取协议-/secret-clause-url}        ${ajson}
+        Set Suite Variable        ${json}
+
+检查更新-/check/upgrade
+        ${ajson}        Evaluate        {"baseParams":{"appVersion":"2.3.0","deviceModel":"PACM00","deviceType":"app","locateAddress":"上海市浦东新区邹平路800号靠近云顶广场A座","locateCity":"上海市","locateDistrict":"浦东新区","locationProvince":"上海市","majorAppVersion":"2.3.0","network":"WIFI","networkOperator":"unknown","pValue":"01131050230800060","platformId":"android","position":{"lat":"31.171991","lon":"121.513961"},"screenResolution":"1080,2280","tag":"default","termId":"ed143dd0da70efff","termModel":"root PACM00","termSysVersion":"8.1.0","wifiMac":"6c:8b:d3:4c:c4:af","wifiSsid":"bf-corp"},"bizParams":{},"jwt":"${jwt}","lmToken":"${Im_token}","phoneNumber":"${phone}","sign":"0c66e3339e9baa284fefeeb8d29effc1","source":7,"timestamp":"1566539815623","token":""}
+        ${json}        POST请求-Json        ${检查更新-/check/upgrade}        ${ajson}
+        Set Suite Variable        ${json}
+
+获取常用工具-/v1/common-tools
+        ${ajson}        Evaluate        {"baseParams":{"appVersion":"2.3.0","deviceModel":"PACM00","deviceType":"app","locateAddress":"上海市浦东新区邹平路800号靠近云顶广场A座","locateCity":"上海市","locateDistrict":"浦东新区","locationProvince":"上海市","majorAppVersion":"2.3.0","network":"WIFI","networkOperator":"unknown","pValue":"01131050230800060","platformId":"android","position":{"lat":"31.171991","lon":"121.513961"},"screenResolution":"1080,2280","tag":"default","termId":"ed143dd0da70efff","termModel":"root PACM00","termSysVersion":"8.1.0","wifiMac":"6c:8b:d3:4c:c4:af","wifiSsid":"bf-corp"},"bizParams":{},"jwt":"${jwt}","lmToken":"${Im_token}","phoneNumber":"${phone}","sign":"35937f010e860c343abbaab3347d422a","source":7,"timestamp":"1566540104221","token":""}
+        ${json}        POST请求-Json        ${获取常用工具-/v1/common-tools}        ${ajson}
+        Set Suite Variable        ${json}
+
+我的-/v1/mine
+        ${ajson}        Evaluate        {"baseParams":{"appVersion":"2.3.0","deviceModel":"PACM00","deviceType":"app","locateAddress":"上海市浦东新区邹平路800号靠近云顶广场A座","locateCity":"上海市","locateDistrict":"浦东新区","locationProvince":"上海市","majorAppVersion":"2.3.0","network":"WIFI","networkOperator":"unknown","pValue":"01131050230800060","platformId":"android","position":{"lat":"31.171991","lon":"121.513961"},"screenResolution":"1080,2280","tag":"default","termId":"ed143dd0da70efff","termModel":"root PACM00","termSysVersion":"8.1.0","wifiMac":"6c:8b:d3:4c:c4:af","wifiSsid":"bf-corp"},"bizParams":{},"jwt":"${jwt}","lmToken":"${Im_token}","phoneNumber":"${phone}","sign":"c1bd8ad6d65314a237b2939e960b1614","source":7,"timestamp":"1566540104216","token":""}
+        ${json}        POST请求-Json        ${我的-/v1/mine}        ${ajson}
+        Set Suite Variable        ${json}
+
+获取首页认证项-/v1/index
+        ${ajson}        Evaluate        {"baseParams":{"appVersion":"2.3.0","deviceModel":"PACM00","deviceType":"app","locateAddress":"上海市浦东新区邹平路800号靠近云顶广场A座","locateCity":"上海市","locateDistrict":"浦东新区","locationProvince":"上海市","majorAppVersion":"2.3.0","network":"WIFI","networkOperator":"unknown","pValue":"01131050230800060","platformId":"android","position":{"lat":"31.171991","lon":"121.513961"},"screenResolution":"1080,2280","tag":"default","termId":"ed143dd0da70efff","termModel":"root PACM00","termSysVersion":"8.1.0","wifiMac":"6c:8b:d3:4c:c4:af","wifiSsid":"bf-corp"},"bizParams":{"udFlag":1},"jwt":"","lmToken":"${Im_token}","phoneNumber":"${phone}","sign":"2c18ebaf97c2f93ffda616061abd05de","source":7,"timestamp":"1566540972251","token":""}
+        ${json}        POST请求-Json        ${获取首页认证项-/v1/index}        ${ajson}
+        Set Suite Variable        ${json}
+
+推送-/pre-bump/push
+        ${ajson}        Evaluate        {"baseParams":{"appVersion":"2.3.0","deviceModel":"PACM00","deviceType":"app","locateAddress":"未知","locateCity":"未知","locateDistrict":"未知","locationProvince":"未知","majorAppVersion":"2.3.0","network":"WIFI","networkOperator":"unknown","pValue":"01131050230800060","platformId":"android","position":{"lat":"0.0","lon":"0.0"},"screenResolution":"1080,2280","tag":"default","termId":"ed143dd0da70efff","termModel":"root PACM00","termSysVersion":"8.1.0","wifiMac":"6c:8b:d3:4c:c4:af","wifiSsid":"bf-corp"},"bizParams":{},"jwt":"${jwt}","lmToken":"${Im_token}","phoneNumber":"${phone}","sign":"4454bdbd8e915b07a9744484e6601e3e","source":7,"timestamp":"1566541843736","token":""}
+        ${json}        POST请求-Json        ${推送-/pre-bump/push}        ${ajson}
+        Set Suite Variable        ${json}
+
+获取page-/get-start-page-url
+        ${ajson}        Evaluate        {"baseParams":{"appVersion":"2.3.0","deviceModel":"PACM00","deviceType":"app","locateAddress":"未知","locateCity":"未知","locateDistrict":"未知","locationProvince":"未知","majorAppVersion":"2.3.0","network":"WIFI","networkOperator":"unknown","pValue":"01131050230800060","platformId":"android","position":{"lat":"0.0","lon":"0.0"},"screenResolution":"1080,2280","tag":"default","termId":"ed143dd0da70efff","termModel":"root PACM00","termSysVersion":"8.1.0","wifiMac":"6c:8b:d3:4c:c4:af","wifiSsid":"bf-corp"},"bizParams":{},"jwt":"${jwt}","lmToken":"${Im_token}","phoneNumber":"${phone}","sign":"2733aadfdb1140991092162ac3add4cc","source":7,"timestamp":"1566542262119","token":""}
+        ${json}        POST请求-Json        ${获取page-/get-start-page-url}        ${ajson}
+        Set Suite Variable        ${json}
+
+万能钱包放审核-/get-wjf-switch
+        ${ajson}        Evaluate        {"baseParams":{"appVersion":"2.3.0","deviceModel":"PACM00","deviceType":"app","locateAddress":"上海市浦东新区邹平路800号靠近云顶广场A座","locateCity":"上海市","locateDistrict":"浦东新区","locationProvince":"上海市","majorAppVersion":"2.3.0","network":"WIFI","networkOperator":"unknown","pValue":"01131050230800060","platformId":"android","position":{"lat":"31.17245","lon":"121.513714"},"screenResolution":"1080,2280","tag":"default","termId":"ed143dd0da70efff","termModel":"root PACM00","termSysVersion":"8.1.0","wifiMac":"6c:8b:d3:4c:c4:af","wifiSsid":"bf-corp"},"bizParams":{},"jwt":"${jwt}","lmToken":"${Im_token}","phoneNumber":"${phone}","sign":"021ea7276a1fe5c2deda91d93e49e186","source":7,"timestamp":"1566542691468","token":""}
+        ${json}        POST请求-Json        ${万能钱包放审核-/get-wjf-switch}        ${ajson}
+        Set Suite Variable        ${json}
+
+启动有盾-/get-cert-only-said
+        ${ajson}        Evaluate        {"baseParams":{"appVersion":"2.3.0","deviceModel":"PACM00","deviceType":"app","locateAddress":"上海市浦东新区邹平路800号靠近云顶广场A座","locateCity":"上海市","locateDistrict":"浦东新区","locationProvince":"上海市","majorAppVersion":"2.3.0","network":"WIFI","networkOperator":"unknown","pValue":"01131050230800060","platformId":"android","position":{"lat":"31.17245","lon":"121.513714"},"screenResolution":"1080,2280","tag":"default","termId":"A000008908A832","termModel":"root PACM00","termSysVersion":"8.1.0","wifiMac":"6c:8b:d3:4c:c4:af","wifiSsid":"bf-corp"},"bizParams":{},"jwt":"${jwt}","lmToken":"${Im_token}","phoneNumber":"${phone}","sign":"a85e11b7eb8d9a80cfebd3a9d9b68026","source":7,"timestamp":"1566544473164","token":""}
+        ${json}        POST请求-Json        ${启动有盾-/get-cert-only-said}        ${ajson}
+        Set Suite Variable        ${json}
+
+获取补充联系人-/get-user-relationship-info
+        ${ajson}        Evaluate        {"baseParams":{"appVersion":"2.3.0","deviceModel":"PACM00","deviceType":"app","locateAddress":"上海市浦东新区邹平路800号靠近云顶广场A座","locateCity":"上海市","locateDistrict":"浦东新区","locationProvince":"上海市","majorAppVersion":"2.3.0","network":"WIFI","networkOperator":"unknown","pValue":"01131050230800060","platformId":"android","position":{"lat":"31.17245","lon":"121.513714"},"screenResolution":"1080,2280","tag":"default","termId":"A000008908A832","termModel":"root PACM00","termSysVersion":"8.1.0","wifiMac":"6c:8b:d3:4c:c4:af","wifiSsid":"bf-corp"},"bizParams":{},"jwt":"${jwt}","lmToken":"${Im_token}","phoneNumber":"${phone}","sign":"2469a632c09ba951ac6d2a619693f8b4","source":7,"timestamp":"1566545446959","token":""}
+        ${json}        POST请求-Json        ${获取补充联系人-/get-user-relationship-info}        ${ajson}
+        Set Suite Variable        ${json}
+
+保存补充联系人-/save-device-info
+        ${ajson}        Evaluate        {"baseParams":{"appVersion":"2.3.0","deviceModel":"PACM00","deviceType":"app","locateAddress":"上海市浦东新区邹平路800号靠近云顶广场A座","locateCity":"上海市","locateDistrict":"浦东新区","locationProvince":"上海市","majorAppVersion":"2.3.0","network":"WIFI","networkOperator":"unknown","pValue":"01131050230800060","platformId":"android","position":{"lat":"31.17245","lon":"121.513714"},"screenResolution":"1080,2280","tag":"default","termId":"A000008908A832","termModel":"root PACM00","termSysVersion":"8.1.0","wifiMac":"6c:8b:d3:4c:c4:af","wifiSsid":"bf-corp"},"bizParams":{"contacts":[{"name":"陈少华","phone":"15656070583","phoneDirty":"15656070583"},{"name":"丁中胜","phone":"18362972599","phoneDirty":"18362972599"},{"name":"蒋伟","phone":"18901997403","phoneDirty":"18901997403"},{"name":"李世梁","phone":"15821790751","phoneDirty":"15821790751"},{"name":"林娜","phone":"15952036285","phoneDirty":"15952036285"},{"name":"沈伟清","phone":"17765175097","phoneDirty":"17765175097"},{"name":"石明栋","phone":"18351922866","phoneDirty":"18351922866"},{"name":"司大江","phone":"15521302535","phoneDirty":"15521302535"},{"name":"王雪辉","phone":"13656657690","phoneDirty":"13656657690"},{"name":"杨1","phone":"15100000001","phoneDirty":"15100000001"},{"name":"杨2","phone":"15100000002","phoneDirty":"15100000002"},{"name":"张宾宾","phone":"18512102181","phoneDirty":"18512102181"},{"name":"张鑫","phone":"17521030153","phoneDirty":"17521030153"},{"name":"张宇","phone":"15061883112","phoneDirty":"15061883112"},{"name":"张智","phone":"18930823570","phoneDirty":"18930823570"},{"name":"邹浩","phone":"18355530546","phoneDirty":"18355530546"}],"installedApps":"优酷视频,小黑鱼-会员制购物平台,微信,爆米花贷款,屏幕录制,应用宝,白鲸信用贷款,急用钱借钱,快拿钱,闪电下,UC浏览器,文件台,豌豆荚,360手机助手,游戏空间SDK,高德地图,钉钉,万能钱包,叮当有米,全民现金,有借有还,自由收藏,支付宝,FortiClient VPN"},"jwt":"${jwt}","lmToken":"${Im_token}","phoneNumber":"${phone}","sign":"20e259001ac0a7b247562039aba0193a","source":7,"timestamp":"1566545777269","token":""}
+        ${json}        POST请求-Json        ${保存补充联系人-/save-device-info}        ${ajson}
+        Set Suite Variable        ${json}
+
+校验补充联系人-/save-user-relationship-info
+        ${ajson}        Evaluate        {"baseParams":{"appVersion":"2.3.0","deviceModel":"PACM00","deviceType":"app","locateAddress":"上海市浦东新区邹平路800号靠近云顶广场A座","locateCity":"上海市","locateDistrict":"浦东新区","locationProvince":"上海市","majorAppVersion":"2.3.0","network":"WIFI","networkOperator":"unknown","pValue":"01131050230800060","platformId":"android","position":{"lat":"31.17245","lon":"121.513714"},"screenResolution":"1080,2280","tag":"default","termId":"A000008908A832","termModel":"root PACM00","termSysVersion":"8.1.0","wifiMac":"6c:8b:d3:4c:c4:af","wifiSsid":"bf-corp"},"bizParams":{"emergencyContactName":"测试二号","emergencyContactPhoneNo":"17765175097","emergencyContactRelationship":1,"immediateFamilyName":"测试一号","immediateFamilyPhoneNo":"15656070583","immediateFamilyRelationship":3},"jwt":"${jwt}","lmToken":"${Im_token}","phoneNumber":"${phone}","sign":"5005bf37ba36326426f7f77eb98f9621","source":7,"timestamp":"1566545777356","token":""}
+        ${json}        POST请求-Json        ${校验补充联系人-/save-user-relationship-info}        ${ajson}
+        Set Suite Variable        ${json}
+
+获取认证项跳转地址(运营商)-/get-cert-destination
+        ${ajson}        Evaluate        {"baseParams":{"appVersion":"2.3.0","deviceModel":"PACM00","deviceType":"app","locateAddress":"上海市浦东新区邹平路800号靠近云顶广场A座","locateCity":"上海市","locateDistrict":"浦东新区","locationProvince":"上海市","majorAppVersion":"2.3.0","network":"WIFI","networkOperator":"unknown","pValue":"01131050230800060","platformId":"android","position":{"lat":"31.17245","lon":"121.513714"},"screenResolution":"1080,2280","tag":"default","termId":"A000008908A832","termModel":"root PACM00","termSysVersion":"8.1.0","wifiMac":"6c:8b:d3:4c:c4:af","wifiSsid":"bf-corp"},"bizParams":{"failReturnUrl":"bj://hybrid/action/finish","productId":0,"returnUrl":"bj://hybrid/action/finish","type":2},"jwt":"${jwt}","lmToken":"${Im_token}","phoneNumber":"${phone}","sign":"0608bb92e69f7e7ab04683e5bb714e97","source":7,"timestamp":"1566547120035","token":""}
+        ${json}        POST请求-Json        ${获取认证项跳转地址(运营商)-/get-cert-destination}        ${ajson}
+        Set Suite Variable        ${json}

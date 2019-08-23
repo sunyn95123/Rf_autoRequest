@@ -1,0 +1,25 @@
+*** Variables ***
+${获取验证码-/send-msg}        /lmf-web/app/v1/send-msg
+${验证码登录-/identifyCode}        /lmf-web/app/v1/login/identifyCode
+${贷款通知书-/get-contract-info}        /lmf-web/contact/get-contract-info
+${获取基本信息-/get-base-info}        /lmf-web/app/user-info/get-base-info
+${提交基本信息-/save-base-info}        /lmf-web/app/user-info/save-base-info
+${设置密码-/set/password}        /lmf-web/app/v1/set/password
+${我的-tab-/get-order-list-status}        /lmf-web/order/get-order-list-status
+${账单列表-/get-order-list}        /lmf-web/order/v3/get-order-list
+${/product/recommend}        /lmf-web/app/product/recommend
+${获取还款历史-/get-repay-history}        /lmf-web/order/v1/get-repay-history
+${设置登录密码-/if/set/password}        /lmf-web/app/v1/if/set/password
+${获取协议-/secret-clause-url}        /lmf-web/address/secret-clause-url
+${检查更新-/check/upgrade}        /lmf-web/app/firmware/check/upgrade
+${获取常用工具-/v1/common-tools}        /lmf-web/app/page-info/v1/common-tools
+${我的-/v1/mine}        /lmf-web/app/product/v1/mine
+${获取首页认证项-/v1/index}        /lmf-web/alkaid/v1/index
+${推送-/pre-bump/push}        /lmf-web/pre-bump/push
+${获取page-/get-start-page-url}        /lmf-web/alkaid/get-start-page-url
+${万能钱包放审核-/get-wjf-switch}        /lmf-web/alkaid/v1/get-wjf-switch
+${启动有盾-/get-cert-only-said}        /lmf-web//cert/ocr/youdun/get-cert-only-said
+${获取补充联系人-/get-user-relationship-info}        /lmf-web/app/user-info/get-user-relationship-info
+${保存补充联系人-/save-device-info}        /lmf-web/app/user-info/save-device-info
+${校验补充联系人-/save-user-relationship-info}        /lmf-web/app/user-info/save-user-relationship-info
+${获取认证项跳转地址(运营商)-/get-cert-destination}        /lmf-web/api/cert/get-cert-destination
