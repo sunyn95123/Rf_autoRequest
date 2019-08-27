@@ -22,8 +22,8 @@ POST请求-WWW
 
 POST请求-Json
         [Arguments]        ${url}        ${data}
-        ${proxies}        Create Dictionary        http        127.0.0.1:8888
-        Create Session        api        ${E-HOST-LMF}        proxies=${proxies}
+        #${proxies}        Create Dictionary        http        127.0.0.1:8888
+        Create Session        api        ${E-HOST-LMF}        #proxies=${proxies}
         ${headers}        Header管理
         Set To Dictionary        ${headers}        Content-Type=application/json;charset=UTF-8
         ${response}        Post Request        api        ${url}        json=${data}        headers=${headers}
