@@ -34,8 +34,7 @@ POST请求-Json
 POST请求-form
         [Arguments]        ${url}        ${data}
         [Timeout]
-        #${proxies}        Create Dictionary        http        127.0.0.1:8888
-        Create Session        api        ${E-HOST-LMF}        #proxies=${proxies}
+        Create Session        api        ${E-HOST-LMF}
         ${headers}        Header管理
         Set To Dictionary        ${headers}        Content-Type=application/x-www-form-urlencoded
         ${response}        Post Request        api        ${url}        ${data}        headers=${headers}
